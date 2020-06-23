@@ -1,0 +1,58 @@
+<!-- Page Header Start-->
+<div class="page-main-header" [ngClass]="{'open' : navServices.collapseSidebar}" id="page-main-header">
+  <div class="main-header-right row">
+    <div class="main-header-left d-lg-none">
+      <div class="logo-wrapper">
+        <!-- <a href="javascript::void(0)">
+        <img src="https://fun4friends.com/PF.Site/flavors/material/assets/logos/f65836bcb878c132565ee6d3e97613e9.png" alt="F4F Logo" class="img-fluid"></a> -->
+     <h1 style="color: #ffff">Rest Api Builder</h1>
+      </div>
+    </div>
+    <div class="mobile-sidebar">
+      <div class="media-body text-right switch-sm">
+        <label class="switch">
+          <a href="javascript:void(0)" (click)="collapseSidebar()">
+            <app-feather-icons id="sidebar-toggle" [icon]="'align-left'"></app-feather-icons>
+          </a>
+        </label>
+      </div>
+    </div>
+    <div class="nav-right col">
+      <ul class="nav-menus" [ngClass]="{'open' : openNav}">
+        <li>
+          
+        </li>
+        <li>
+          
+        </li>
+        <li>
+          <a href="javascript:void(0)" class="text-dark" toggleFullscreen>
+            <app-feather-icons [icon]="'maximize'"></app-feather-icons>
+          </a>
+        </li>
+        <li class="onhover-dropdown">
+          <div class="media align-items-center"><img
+              class="align-self-center pull-right img-50 rounded-circle" src="{{url}}{{user?.avatar}}"
+              alt="header-user">
+            <div class="dotted-animation"><span class="animate-circle"></span><span class="main-circle"></span></div>
+          </div>
+          <ul class="profile-dropdown onhover-show-div p-20">
+            <li><a href="javascript:void(0)">
+                <app-feather-icons [icon]="'user'"></app-feather-icons>Edit Profile
+              </a></li>
+            <li><a href="javascript:void(0)">
+                <app-feather-icons [icon]="'settings'"></app-feather-icons>Settings
+              </a></li>
+            <li><a (click)="logout()">
+                <app-feather-icons [icon]="'log-out'" ></app-feather-icons>Logout
+              </a></li>
+          </ul>
+        </li>
+      </ul>
+      <div class="d-lg-none mobile-toggle pull-right">
+        <app-feather-icons [icon]="'more-horizontal'"></app-feather-icons>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page Header Ends -->

@@ -1,0 +1,106 @@
+<!-- <div class="modal-body" style="width:500px;margin-top:150px">
+  <h4>Add Item</h4>
+  <form [formGroup]="updateColumnForm">
+    <table>
+      <tr>
+        <td>
+          <label>Column Name</label>
+          <input type="text" class="form-control" formControlName="name" placeholder="Column Name">
+        </td>
+        <td>
+          <label>Length</label>
+          <input type="number" class="form-control" formControlName="length" placeholder="Length">
+        </td>
+
+        <td><label>Null</label>
+          <input type="checkbox" class="form-control" formControlName="null" placeholder="Column Name"></td>
+        <td>
+
+      </tr>
+      <tr>
+        <td>
+          <label>Type</label>
+          <select class="form-control" formControlName="type">
+            <option [value]="i" *ngFor="let type of comboBox?.type let i = index">{{type}}</option>
+          </select></td>
+        <td>
+          <label>Keys</label>
+          <select class="form-control" formControlName="key">
+            <option [value]="i" *ngFor="let key of comboBox?.keys let i = index">{{key}}</option>
+          </select>
+        </td>
+        <td>
+          <label>Default</label>
+          <select class="form-control" formControlName="default">
+            <option [value]="i" *ngFor="let key of comboBox?.defaults let i = index">{{key}}</option>
+          </select>
+        </td>
+      </tr>
+    </table>
+    <div class="text-center">
+      <button class="btn btn-primary" *ngIf="Data.update" (click)="updateColumn()">update column</button>
+      <button class="btn btn-dark mt-1" *ngIf="Data.new" (click)="saveColumn()"> <i class="fa fa-plus"></i>Save</button>
+    </div>
+
+  </form>
+  <div> -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="modal-basic-title" class="modal-title">Add Item</h4><button (click)="bsModalRef.hide();" type="button" aria-label="Close"
+          class="close"><span aria-hidden="true">×</span></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="updateColumnForm" class="ng-untouched ng-pristine ng-valid">
+          <table>
+            <tr>
+              <td>
+                <label>Column Name</label>
+                <input type="text" class="form-control" formControlName="name" placeholder="Column Name">
+                <label style="color: red" *ngIf="name.errors?.required" >Type is required</label>
+                <label style="color: red" *ngIf="name.errors?.pattern" >Name is not in correct format</label>
+              </td>
+              <td>
+                <label>Length</label>
+                <input type="number" class="form-control" formControlName="length" placeholder="Length">
+                
+                <label style="color: red" *ngIf="length.errors?.min||length.errors?.max||length.errors?.required" > length should be greater than 0 and less than 200</label>
+              </td>
+      
+              <td><label>Null</label>
+                <input type="checkbox" class="form-control" formControlName="null" placeholder="Column Name"></td>
+              <td>
+      
+            </tr>
+            <tr>
+              <td>
+                <label>Type</label>
+                <select class="form-control" formControlName="type">
+                  <option [value]="i" *ngFor="let type of comboBox?.type let i = index">{{type}}</option>
+                </select>
+                <label style="color: red" *ngIf="type.errors?.min||type.errors?.required" >Type is required</label></td>
+                
+              <td>
+                <label>Keys</label>
+                <select class="form-control" formControlName="key">
+                  <option [value]="i" *ngFor="let key of comboBox?.keys let i = index">{{key}}</option>
+                </select>
+              </td>
+              <td>
+                <label>Default</label>
+                <select class="form-control" formControlName="default">
+                  <option [value]="i" *ngFor="let key of comboBox?.defaults let i = index">{{key}}</option>
+                </select>
+              </td>
+            </tr>
+          </table>
+          
+      
+        </form>
+        
+      </div>
+      <div class="modal-footer text-center">
+        
+          <button class="btn btn-primary" *ngIf="Data.update" [disabled]="!updateColumnForm.valid"  (click)="updateColumn()">update column</button>
+          <button class="btn btn-dark mt-1" *ngIf="Data.new" [disabled]="!updateColumnForm.valid" (click)="saveColumn()"> <i class="fa fa-plus"></i>Save</button>
+        </div>
+    </div>

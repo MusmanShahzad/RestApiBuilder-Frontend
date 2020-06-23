@@ -1,0 +1,62 @@
+<div class="page-wrapper">
+	<div class="auth-bg">
+		<div class="authentication-box">
+			<div class="text-center">
+				<!-- <img src="./../../../../assets/images/logo/logo.jpg" alt="Logo" class="img-fluid"> -->
+				<h1>Rest Api Builder</h1>
+            </div>
+			<div class="card mt-4">
+				<div class="card-body">
+					<div class="text-center">
+						<h4>Register</h4>
+						<h6>Enter Your Information </h6>
+					</div>
+					<form class="theme-form" [formGroup]="registerForm" >
+            <div class="form-group">
+							<label class="col-form-label pt-0">Name</label>
+							<input class="form-control" formControlName="name" type="text" required="">
+							<div *ngIf="registerForm.controls.name.touched && registerForm.controls.name.errors?.required"
+								class="text text-danger mt-1">
+								Name is required
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-form-label pt-0">Email</label>
+							<input class="form-control" formControlName="email" type="email" required="">
+							<div *ngIf="registerForm.controls.email.touched && registerForm.controls.email.errors?.required"
+								class="text text-danger mt-1">
+								Email is required
+							</div>
+							<div *ngIf="registerForm.controls.email.touched && registerForm.controls.email.errors?.email"
+								class="text text-danger mt-1">
+								Invalid Email
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-form-label">Password</label>
+							<input class="form-control" type="password" formControlName="password" required="">
+							<div *ngIf="registerForm.controls.password.touched && registerForm.controls.password.errors?.required"
+								class="text text-danger mt-1">
+								Password is required
+							</div>
+							<div *ngIf="registerForm.controls.password.touched && registerForm.controls.password.errors?.minLength"
+								class="text text-danger mt-1">
+								Password length should be at least 8
+							</div>
+            </div>
+            <div class="form-group">
+                <input type="file" (change)="fileChange($event)">
+            </div>
+						<div class="form-group form-row mt-3 mb-0">
+							<button class="btn btn-primary btn-block btn-lg"
+								[class.loader--text]="isLoading"
+								[disabled]="!registerForm.valid || isLoading" (click)="register(registerForm.value)"
+								type="submit"><span>{{ isLoading ? '' : 'Register' }}</span>
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

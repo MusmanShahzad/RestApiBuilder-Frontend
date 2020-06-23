@@ -1,0 +1,30 @@
+
+
+  <div class="card ">
+    <div class="card-header card-header-border">
+      <div class="row">
+        <div class="col-sm-6">
+          <h5 *ngIf="!change">{{table.name}}</h5>
+          <div *ngIf="change">
+          <input class="form-control" [(ngModel)]="name"/>
+          <button class="btn btn-sm btn-primary mr-1" (click)="updateTable()"><i class="fa fa-pencil"></i></button>
+        </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="pull-right right-header">
+            <button class="btn btn-primary btn-pill mr-1" (click)="change=true; name=table.name"><i class="fa fa-pencil"></i></button>
+            <button type="button" class="btn btn-primary btn-pill" (click)="deleteTable(table.id)">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body recent-notification" cdkDropList [cdkDropListData]="table.columns" (cdkDropListDropped)="drop($event)">
+      <div class="alert alert-warning" *ngIf="table.columns.length==0">
+        <strong>Warning!</strong> No column found
+      </div>
+      <app-column cdkDrag *ngFor="let column of table.columns" [column]="column" [tableId]="table.id"></app-column>
+    </div>
+    <div class="card-footer text-center">
+      <button class="btn btn-primary" (click)="openModal()"><i class="fa fa-plus"></i> Add column</button>
+    </div>
+  </div>

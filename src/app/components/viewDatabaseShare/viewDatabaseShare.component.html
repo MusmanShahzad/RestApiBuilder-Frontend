@@ -1,0 +1,19 @@
+<div class="ribbon-wrapper card">
+  <div class="card-body">
+    <div  class="ribbon ribbon-primary">{{database.name}}</div>
+    
+    <h3 >Tables</h3>
+    <div class="col-12" *ngIf="database.tables&&database.tables.length==0">
+      <div class="alert alert-warning" role="alert">
+        No Table found
+      </div>
+    </div>
+      <ul class="list-group list-group-flush" *ngIf="database.tables">
+        <li class="list-group-item" *ngFor="let table of database.tables">{{table.name}}</li>
+      </ul>
+  </div>
+  <div class="card-footer">
+    <a class="btn btn-primary m-3"  [routerLink]="['./../create',database._id]" > edit</a>
+    <button class="btn btn-primary m-3" [disabled]='isLoading' (click)="deleteProject(database._id)">{{isLoading?'Loading...':'Delete'}} </button>
+  </div>
+</div>

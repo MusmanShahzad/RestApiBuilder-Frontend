@@ -1,0 +1,18 @@
+<!-- <li class="list-group-item">
+
+  {{column.name}} <button class="btn btn-xs btn-primary " >Edit</button>
+  <button class="btn btn-xs btn-danger mr-2" >Delete</button>
+</li> -->
+<div class="media">
+  <h6 style="width: 90px;">{{column.name}}</h6>
+  <div class="media-body">
+    <span class="badge badge-dark" *ngIf="column.key>0">{{comboBox?.keys[column.key]}}</span>
+    <span class="badge badge-primary">{{comboBox?.type[column.type]}}</span>
+    <span class="badge badge-success">{{column.null?'Null':'Not Null'}}</span>
+
+    <p class="f-12 mt-1">
+      <button class="btn btn-sm btn-primary mr-1" (click)="openModal(0)"><i class="fa fa-pencil"></i></button>
+      <button class="btn btn-sm btn-danger" (click)="deleteColumn()"><i class="fa fa-remove"></i></button>
+    </p>
+  </div>
+</div>

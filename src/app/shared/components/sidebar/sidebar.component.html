@@ -1,0 +1,26 @@
+<div class="main-header-left d-none d-lg-block">
+  <div class="logo-wrapper">
+    <!-- <a href="javascript:void(0)"><img src="https://fun4friends.com/PF.Site/flavors/material/assets/logos/f65836bcb878c132565ee6d3e97613e9.png" alt="F4F Logo" class="img-fluid"></a> -->
+<h1 style="color: #ffff">Rest Api Builder</h1>
+  </div>
+</div>
+<div class="sidebar custom-scrollbar">
+  <div class="sidebar-user text-center">
+    <div><img class="img-60 rounded-circle" [src]="user?.avatar? url+user?.avatar:'/assets/images/user/1.jpg'" alt="#">
+      <div class="profile-edit"><a>
+          <i class="icofont icofont-pencil-alt-5"><input class="upload" type="file" /></i>
+        </a></div>
+    </div>
+    <h6 class="mt-3 f-14">{{user?.name}}</h6>
+    <p>DEVELOPER.</p>
+  </div>
+  <ul class="sidebar-menu" >
+    <li >
+      <!-- Sub -->
+      <a [routerLink]="['/viewdatabase']" class="sidebar-header" >
+        <span>View Projects</span>
+        <i class="fa fa-plus pull-right" aria-hidden="true"></i>
+      </a>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,149 @@
+import {
+  Database,
+  Table,
+  Column
+} from './interfaces';
+import {
+  Injectable
+} from '@angular/core';
+import {
+  BehaviorSubject
+} from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DataService {
+  private databasesObservable = new BehaviorSubject < Database > (null);
+  database = this.databasesObservable.asObservable();
+  constructor() {}
+  getDatabase(): Database {
+    return this.databasesObservable.value;
+  }
+  setDatabase(database){
+    return this.databasesObservable.next(database);
+  }
+  addTable(name): boolean {
+    const temp = this.databasesObservable.value;
+    if (name) {
+      if (this.tableNameCheck(name)) {
+        temp.tables.push(this.defaultTable(name));
+        return true;
+      }
+      return false;
+    }
+    temp.tables.push(this.defaultTable(null));
+    return true;
+  }
+  deleteTable(id: string): boolean {
+    const temp = this.databasesObservable.value;
+
+    temp.tables = temp.tables.filter(table => {
+      return table.id !== id;
+    });
+    return true;
+  }
+  changeTableName(id: string, name: string): boolean {
+    const temp = this.databasesObservable.value.tables;
+    if (this.tableNameCheck(name)) {
+      for (let i = 0; i < temp.length; i++) {
+        if (temp[i].id === id) {
+          temp[i].name = name;
+          return true;
+        }
+      }
+      return false;
+    }
+    return false;
+  }
+  tableNameCheck(name): boolean {
+    return this.databasesObservable.value.tables.find(table => {
+      return table.name == name;
+    }) == null;
+  }
+  defaultTable(name): Table {
+    const id = this.randomString();
+    const table: Table = {
+      id,
+      name: name ? name : id,
+      columns: []
+    };
+
+    return table;
+  }
+  getTableById(id: string): Table {
+    return this.databasesObservable.value.tables.find(table => {
+      return table.id === id;
+    });
+  }
+  addColumn(tableId: string, column: Column) {
+    
+    if (this.checkColumnName(tableId, column.name)) {
+    console.log('column name not found');
+    const table = this.getTableById(tableId);
+    column.id = this.randomString();
+    table.columns.push(column);
+    console.log('column',table)
+    return {status:true};
+    } else {
+      console.log('column name found');
+      return {error: 'duplicated', message: 'column name already exit in table',status:false};
+    }
+
+  }
+  updateColumn(tableId: string, column: Column) {
+   const columns =  this.getTableById(tableId).columns;
+   for (const columnTemp of columns) {
+     if (columnTemp.name === column.name && columnTemp.id !== column.id) {
+       return{error: 'duplicated', message: 'column name already exit in table', status: false};
+     }
+   }
+   for (let i = 0; i < columns.length; i++) {
+    if (columns[i].id === column.id) {
+      columns[i] = column;
+      return {status: true};
+    }
+  }
+  }
+  deleteColumn(tableId: string, columnId: string) {
+   const table = this.getTableById(tableId);
+   let temp = [];
+   for(let i=0;i<table.columns.length;i++){
+     if(table.columns[i].id!=columnId){
+       temp.push(table.columns[i]);
+     }
+   }
+   table.columns=temp;
+  //  table.columns = table.columns.filter(column => {
+  //    console.log(column.id != columnId);
+  //    column.id != columnId;
+  //  });
+   console.log(table.columns);
+  }
+  getColumnById(tableId: string, columnId: string) {
+    return this.getTableById(tableId).columns.filter(column => {
+      return column.id === columnId;
+    });
+  }
+  checkColumnName(tableId: string, columnName: string): boolean {
+    const temp = (this.getTableById(tableId).columns.filter(column => {
+      return (column.name === columnName);
+    }));
+    return temp == null || temp.length == 0;
+  }
+  randomString() {
+    const len = 5;
+    let an = 'a';
+    an = an && an.toLowerCase();
+    let str = '',
+      i = 0,
+      min = an == 'a' ? 10 : 0,
+      max = an == 'n' ? 10 : 62;
+    for (; i++ < len;) {
+      let r = Math.random() * (max - min) + min << 0;
+      str += String.fromCharCode(r += r > 9 ? r < 36 ? 55 : 61 : 48);
+    }
+    return str;
+  }
+
+}

@@ -1,0 +1,52 @@
+<div >
+<div class="row justify-content-center" 
+cdkDropListGroup
+
+>
+
+<div class="col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+<h2>{{database?.name}}</h2><br>
+<button class="btn btn-primary m-3" (click)="BuildSql()">Build Sql File</button>
+<button class="btn btn-primary m-3" (click)="BuildRestApi()">Build RestAPi</button>
+<button class="btn btn-success m-3" (click)="updateDatabase()">{{saveLoading?'Loading...':'Save'}}</button>
+</div>
+<div class="col-4 col-md-4 col-sm-4"  *ngFor="let table of database?.tables let i = index" >
+    <app-table  [table]="table" [index]="i"></app-table>
+</div>
+  
+</div>
+</div>
+<div class="container-fluid justify-content-center">
+  <div class="col-md-6 col-12  offset-md-3" >
+    <div class="card" >
+      <div class="card-body">
+        <form [formGroup]="tableForm" class="row">
+        <div class="col-4">
+            <input type="text" class="form-control" id="tableName" formControlName="name" placeholder="Table Name" (change)="tableNameCheck()">
+            <div class="alert alert-warning" *ngIf="name.dirty&&name.errors?.pattern">
+              <strong>Warning!</strong> Table name is not valid
+            </div>
+            <div class="alert alert-warning" *ngIf="name.dirty&&name.errors?.required">
+              <strong>Warning!</strong> Table name is required
+            </div>
+            <div class="alert alert-warning" *ngIf="nameError">
+              <strong>Warning!</strong> Table name already exits
+            </div>
+            
+         
+        </div>
+        <div class="col-4">
+          <select class="form-control">
+            <option value="Engines">Select Engines</option>
+          </select>
+          
+        </div>
+        <div class="col-4">
+          <button class="btn btn-dark" [disabled]='!tableForm.valid' (click)="addTable()"><i class="fa fa-plus"></i> Add Table</button>
+          
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
