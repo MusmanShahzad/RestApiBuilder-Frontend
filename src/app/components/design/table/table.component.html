@@ -13,7 +13,7 @@
         <div class="col-sm-6">
           <div class="pull-right right-header">
             <button class="btn btn-primary btn-pill mr-1" (click)="change=true; name=table.name"><i class="fa fa-pencil"></i></button>
-            <button type="button" class="btn btn-primary btn-pill" (click)="deleteTable(table.id)">Delete</button>
+            <button type="button" class="btn btn-danger btn-pill" (click)="deleteTable(table.id)"><i class="fa fa-remove"></i></button>
           </div>
         </div>
       </div>
@@ -25,6 +25,6 @@
       <app-column cdkDrag *ngFor="let column of table.columns" [column]="column" [tableId]="table.id"></app-column>
     </div>
     <div class="card-footer text-center">
-      <button class="btn btn-primary" (click)="openModal()"><i class="fa fa-plus"></i> Add column</button>
+      <button class="btn btn-dark" (click)="openModal()"><i class="fa fa-plus"></i> Add column</button>
     </div>
   </div>

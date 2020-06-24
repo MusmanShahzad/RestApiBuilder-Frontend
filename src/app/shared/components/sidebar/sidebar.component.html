@@ -1,12 +1,19 @@
 <div class="main-header-left d-none d-lg-block">
   <div class="logo-wrapper">
     <!-- <a href="javascript:void(0)"><img src="https://fun4friends.com/PF.Site/flavors/material/assets/logos/f65836bcb878c132565ee6d3e97613e9.png" alt="F4F Logo" class="img-fluid"></a> -->
-<h1 style="color: #ffff">Rest Api Builder</h1>
+<h3 style="color: #ffff">Rest Api Builder</h3>
   </div>
 </div>
 <div class="sidebar custom-scrollbar">
   <div class="sidebar-user text-center">
-    <div><img class="img-60 rounded-circle" [src]="user?.avatar? url+user?.avatar:'/assets/images/user/1.jpg'" alt="#">
+    <div>
+      <div  class="loader img-60 rounded-circle" *ngIf="!user">
+        <div class="line bg-secondary"></div>
+        <div  class="line bg-secondary"></div>
+        <div class="line bg-secondary"></div>
+        <div  class="line bg-secondary"></div>
+      </div>
+      <img class="img-60 rounded-circle" [src]="user?.avatar? url+user?.avatar:'/assets/images/user/1.jpg'" alt="#">
       <div class="profile-edit"><a>
           <i class="icofont icofont-pencil-alt-5"><input class="upload" type="file" /></i>
         </a></div>

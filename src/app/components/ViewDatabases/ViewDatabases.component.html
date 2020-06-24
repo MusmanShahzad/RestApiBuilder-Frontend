@@ -1,28 +1,49 @@
 <div class="container-fluid justify-content-center">
-  <form class="row" [formGroup]="createProjectForm">
-    <div class="col-3" >
-      <input type="text" class="form-control" placeholder="Enter Project Name" formControlName="name"/>
-      <div class="alert alert-warning" *ngIf="name.dirty&&name.errors?.pattern">
-        <strong>Warning!</strong> Project name is not valid
-      </div>
-      <div class="alert alert-warning" *ngIf="name.dirty&&name.errors?.required">
-        <strong>Warning!</strong> Project name is required
+  <div class="col-md-6 col-12  offset-md-3">
+    <div class="card">
+      <div class="card-body">
+        <form [formGroup]="createProjectForm" class="row">
+          <div class="col-6">
+            <input type="text" class="form-control" placeholder="Enter Database Name" formControlName="name" />
+            <div class="alert alert-warning" *ngIf="name.dirty&&name.errors?.pattern">
+              <strong>Warning!</strong> Database name is not valid
+            </div>
+            <div class="alert alert-warning" *ngIf="name.dirty&&name.errors?.required">
+              <strong>Warning!</strong> Database name is required
+            </div>
+          </div>
+
+          <div class="col-6">
+            <button class="btn btn-dark btn-pill ml-3" [disabled]='!createProjectForm.valid||createProjectLoading'
+              (click)="createProject()">
+              <i class="fa fa-plus"></i>{{createProjectLoading?'Loading...':'Create Database'}}
+            </button>
+
+          </div>
+        </form>
       </div>
     </div>
-    <div class="col-3">
-      <button class="btn btn-primary m-3" [disabled]='!createProjectForm.valid||createProjectLoading' (click)="createProject()">
-        {{createProjectLoading?'Loading...':'Create Database'}}
-      </button>
-    </div>
-  </form>
+  </div>
+</div>
+<div class="container-fluid justify-content-center">
   <div class="row">
+    <div class="col-12">
+    <div  class="loader-box justify-content-center" *ngIf="!projects">
+      <div  class="loader">
+        <div class="line bg-secondary"></div>
+        <div  class="line bg-secondary"></div>
+        <div class="line bg-secondary"></div>
+        <div  class="line bg-secondary"></div>
+      </div>
+    </div>
+  </div>
     <div class="col-12" *ngIf="projects&&projects.length==0">
       <div class="alert alert-warning" role="alert">
         No project found
       </div>
     </div>
     <div class="col-4" *ngFor="let project of projects">
-     <app-viewDatabaseShare [database]="project"></app-viewDatabaseShare>
+      <app-viewDatabaseShare [database]="project"></app-viewDatabaseShare>
       <!-- <div class="card">
         <div class="card-header">
           <h1>{{project.name}}</h1>
@@ -38,8 +59,5 @@
         </div>
       </div> -->
     </div>
-  </div>
-  <div  class="col-4">
-    
   </div>
 </div>

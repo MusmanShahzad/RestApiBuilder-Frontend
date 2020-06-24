@@ -3,9 +3,10 @@
   <div class="main-header-right row">
     <div class="main-header-left d-lg-none">
       <div class="logo-wrapper">
+        
         <!-- <a href="javascript::void(0)">
         <img src="https://fun4friends.com/PF.Site/flavors/material/assets/logos/f65836bcb878c132565ee6d3e97613e9.png" alt="F4F Logo" class="img-fluid"></a> -->
-     <h1 style="color: #ffff">Rest Api Builder</h1>
+     <h3 style="color: #ffff">Rest Api Builder</h3>
       </div>
     </div>
     <div class="mobile-sidebar">
@@ -31,7 +32,14 @@
           </a>
         </li>
         <li class="onhover-dropdown">
-          <div class="media align-items-center"><img
+          <div class="media align-items-center">
+            <div  class="loader" *ngIf="!user">
+              <div class="line bg-secondary"></div>
+              <div  class="line bg-secondary"></div>
+              <div class="line bg-secondary"></div>
+              <div  class="line bg-secondary"></div>
+            </div>
+            <img
               class="align-self-center pull-right img-50 rounded-circle" src="{{url}}{{user?.avatar}}"
               alt="header-user">
             <div class="dotted-animation"><span class="animate-circle"></span><span class="main-circle"></span></div>
