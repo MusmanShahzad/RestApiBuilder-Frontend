@@ -15,6 +15,7 @@ import {
 })
 export class DataService {
   private databasesObservable = new BehaviorSubject < Database > (null);
+  public  status = new BehaviorSubject < boolean > (true);
   database = this.databasesObservable.asObservable();
   constructor() {}
   getDatabase(): Database {
@@ -28,12 +29,12 @@ export class DataService {
     if (name) {
       if (this.tableNameCheck(name)) {
         temp.tables.push(this.defaultTable(name));
+        this.status.next(false);
         return true;
       }
       return false;
     }
-    temp.tables.push(this.defaultTable(null));
-    return true;
+    return false;
   }
   deleteTable(id: string): boolean {
     const temp = this.databasesObservable.value;
@@ -41,6 +42,7 @@ export class DataService {
     temp.tables = temp.tables.filter(table => {
       return table.id !== id;
     });
+    this.status.next(false);
     return true;
   }
   changeTableName(id: string, name: string): boolean {
@@ -49,6 +51,7 @@ export class DataService {
       for (let i = 0; i < temp.length; i++) {
         if (temp[i].id === id) {
           temp[i].name = name;
+          this.status.next(false);
           return true;
         }
       }
@@ -79,11 +82,10 @@ export class DataService {
   addColumn(tableId: string, column: Column) {
     
     if (this.checkColumnName(tableId, column.name)) {
-    console.log('column name not found');
     const table = this.getTableById(tableId);
     column.id = this.randomString();
     table.columns.push(column);
-    console.log('column',table)
+    this.status.next(false);
     return {status:true};
     } else {
       console.log('column name found');
@@ -101,6 +103,7 @@ export class DataService {
    for (let i = 0; i < columns.length; i++) {
     if (columns[i].id === column.id) {
       columns[i] = column;
+      this.status.next(false);
       return {status: true};
     }
   }
@@ -113,12 +116,12 @@ export class DataService {
        temp.push(table.columns[i]);
      }
    }
+   this.status.next(false);
    table.columns=temp;
   //  table.columns = table.columns.filter(column => {
   //    console.log(column.id != columnId);
   //    column.id != columnId;
   //  });
-   console.log(table.columns);
   }
   getColumnById(tableId: string, columnId: string) {
     return this.getTableById(tableId).columns.filter(column => {
@@ -145,5 +148,7 @@ export class DataService {
     }
     return str;
   }
-
+  updateStatus(status){
+    this.status.next(status);
+  }
 }

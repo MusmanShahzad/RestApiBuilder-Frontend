@@ -87,7 +87,7 @@
               </td>
               <td>
                 <label>Default</label>
-                <select class="form-control" formControlName="default">
+                <select class="form-control" formControlName="default" (change)="change('default')">
                   <option [value]="i" *ngFor="let key of comboBox?.defaults let i = index">{{key}}</option>
                 </select>
               </td>

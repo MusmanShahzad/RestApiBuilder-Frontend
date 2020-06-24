@@ -105,4 +105,14 @@ export class EditModalComponent implements OnInit {
     (this.db.addColumn(this.Data.tableId,this.updateColumnForm.value));
     this.bsModalRef.hide();
   }
+  change(type){
+    if(type=='default'){
+      if(this.default.value==1){
+        this.type.setValue(2);
+      }
+      else if(this.default.value==2){
+        this.type.setValue(5);
+      }
+    }
+  }
 }

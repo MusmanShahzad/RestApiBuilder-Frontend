@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Database } from 'src/app/shared/services/interfaces';
@@ -11,6 +11,7 @@ import { EditModalComponent } from '../edit-modal/edit-modal.component';
 import { SqlDownloadComponent } from '../sqlDownload/sqlDownload.component';
 import { LoginService } from 'src/app/shared/services/auth/login.service';
 import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-database',
@@ -26,6 +27,7 @@ id;
 bsModalRef: BsModalRef;
 url;
 saveLoading=false;
+saveStatus;
 get name() {
   return this.tableForm.get('name');
 }
@@ -34,15 +36,22 @@ nameError:boolean=false;
     private fb: FormBuilder,private route:ActivatedRoute,private http:HttpClient,
     private modalService: BsModalService,private loginService:LoginService) {
       this.url = environment.url;
-      
+      this.db.status.subscribe(data=>{
+        this.saveStatus=data;
+      })
     this.tableForm = this.fb.group({
       name: ['', [Validators.pattern('(_|[a-zA-Z])(_|[a-zA-Z]|[0-9])*'),Validators.required]]
     });
    }
-
+   @HostListener('window:beforeunload')
+   canDeactivate(): Observable<boolean> | boolean {
+     // insert logic to check if there are pending changes here;
+     // returning true will navigate without confirmation
+     // returning false will show a confirm dialog before navigating away
+     return this.saveStatus;
+   }
   ngOnInit() {
     let user = this.loginService.getUser();
-    
     this.route.paramMap.subscribe(queryParams => {
       this.id=queryParams.get('id');
     });
@@ -70,6 +79,27 @@ nameError:boolean=false;
   }
   BuildSql(){
     this.buildSqlLoading=true;
+    if(!this.saveStatus){
+      this.saveLoading=true;
+      this.http.put(this.url+'project',{...this.db.getDatabase()}).subscribe(ele=>{
+        this.saveLoading=false;
+        if(ele['error']){
+          this.toastr.error(ele['message'],ele['title']);
+          this.buildSqlLoading=false;
+        }
+        this.db.updateStatus(true);
+        this.loginService.setUser(ele['user']);
+        this.toastr.success('Database saved SuccessFully','success');
+        this.generateSql();
+      })
+    }
+    else{
+      this.generateSql();
+    }
+    
+  }
+  generateSql(){
+    this.buildSqlLoading=true;
     this.http.post('http://localhost:8080/sql',this.db.getDatabase()).subscribe((response)=>{
     this.buildSqlLoading=false;
     if(response['error']){
@@ -79,15 +109,18 @@ nameError:boolean=false;
     })
   }
   updateDatabase(){
+    if(!this.saveStatus){
     this.saveLoading=true;
     this.http.put(this.url+'project',{...this.db.getDatabase()}).subscribe(ele=>{
       this.saveLoading=false;
       if(ele['error']){
         this.toastr.error(ele['message'],ele['title']);
       }
+      this.db.updateStatus(true);
       this.loginService.setUser(ele['user']);
       this.toastr.success('Database saved SuccessFully','success');
     })
+  }
   }
   openModal(path) {
     const initialState = {
@@ -100,8 +133,26 @@ nameError:boolean=false;
     // });
   }
   BuildRestApi(){
+    if(!this.saveStatus){
+      this.saveLoading=true;
+      this.http.put(this.url+'project',{...this.db.getDatabase()}).subscribe(ele=>{
+        this.saveLoading=false;
+        if(ele['error']){
+          this.toastr.error(ele['message'],ele['title']);
+        }
+        this.db.updateStatus(true);
+        this.loginService.setUser(ele['user']);
+        this.toastr.success('Database saved SuccessFully','success');
+        this.generateRestapi();
+      })
+    }
+    else{
+      this.generateRestapi();
+    }
+    
+  }
+  generateRestapi(){
     this.http.post('http://localhost:8080/restApiBuilder',this.db.getDatabase()).subscribe((response)=>{
-      console.log(response);
       this.openModal(response['data'].path)
     })
   }
