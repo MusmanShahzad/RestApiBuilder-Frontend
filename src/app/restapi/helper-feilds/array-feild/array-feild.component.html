@@ -1,0 +1,15 @@
+
+<div class="row shadow-lg p-3 mb-5 bg-white rounded">
+  <div class="col-12">
+  <h2 style="display: inline;">{{to.label}} <span class="badge badge-primary" *ngIf="showArray">{{field.fieldGroup.length}}</span></h2>
+  <span class="btn btn-{{showArray?'primary':'danger'}} pull-right" style="display: inline;" (click)="showArray=!showArray">{{showArray?'Show':'Hide'}}</span>
+  <hr>
+</div>
+  <div class="col-12" *ngIf="!showArray">
+  <div *ngFor="let fields of field.fieldGroup;let i = index;">
+    <formly-field  [field]="fields"></formly-field>
+    <button class="btn btn-danger mb-3" type="button" (click)="remove(i)" style="width:100%">- {{ to.label }}</button>
+  </div>
+  <button class="btn btn-primary" type="button" (click)="add()" style="width:100%">+ {{ to.label }}</button>
+</div>
+</div>

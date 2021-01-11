@@ -1,0 +1,49 @@
+<div class="email-right-aside">
+    <div class="card email-body">
+        <div class="pr-0 b-r-light">
+            <div class="email-top">
+                <div class="row">
+                    <div class="col">
+                        <h4 class="f-w-600">Form</h4>
+                    </div>
+                    <div class="col text-right">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="card">
+                        <div class="alert alert-warning" role="alert" *ngIf="!method">
+                            Please Select a Method!
+                          </div>
+                        <div class="card-body" *ngIf="method">
+                            <formly-form [form]="form" [fields]="fields" [model]="method"></formly-form>
+                            <ul class="list-group" *ngIf="method">
+                                <li class="list-group-item p-2"
+                                    *ngFor="let variable of method.variables; let i = index">
+                                    <label class="pull-left m-2"> {{variable.name}} 
+                                        <small style="font-size: 10px;" class="text-primary mr-2">{{variable.type}}</small>
+                                        <small style="font-size: 10px;" class="text-danger">{{variable.parse}}</small></label>
+                                    <h5 class="pull-right"><i class="fa fa-edit"
+                                            (click)="openVariableEditModal(variable,i)"></i><i
+                                            class="fa fa-trash-o"
+                                            (click)="method.variables.splice(i,1)"></i></h5>
+                                            
+
+                                </li>
+                                <li class="list-group-item text-center m-2">
+                                    <button (click)="openVariableEditModal(null,-1)" type="button"
+                                        placement="center"
+                                        class="btn btn-dark">
+                                        <i class="fa fa-plus"></i> Add</button>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

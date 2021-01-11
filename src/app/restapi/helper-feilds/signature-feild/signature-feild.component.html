@@ -1,0 +1,6 @@
+<img *ngIf="preview" [src]="model[''+key]">
+<signature-pad #signatureCanvas id="signatureCanvas" [hidden]="preview"  [options]="signaturePadOptions" (onBeginEvent)="drawStart()" (onEndEvent)="drawComplete()" ></signature-pad><br>
+
+<button class="btn btn-primary" *ngIf="model[''+key]&&!preview" (click)="preview=true;" >Preview</button>
+<button class="btn btn-danger" *ngIf="preview" (click)="clearSignature();">Clear</button>
+

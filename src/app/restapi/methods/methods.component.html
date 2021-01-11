@@ -1,0 +1,31 @@
+<div class="email-right-aside">
+                    <div class="card email-body">
+                        <div class="pr-0 b-r-light">
+                            <div class="email-top">
+                                <div class="row">
+                                    <div class="col">
+                                        <h4 class="f-w-600">{{path?path:'Methods'}}</h4>
+                                    </div>
+                                    <div class="col text-right">
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="inbox">
+                                    <div class="alert alert-warning" role="alert" *ngIf="!method">
+                                        Please Select a Route!
+                                      </div>
+                                <div  *ngFor="let methodKey of getKeys()" (click)="getMethod(methodKey)">
+                                    <div class="media  {{methodKey===keys?'border-primary selected p-3':''}}" >
+                                        <div class="media-body">
+                                            <!-- {{methodKey==='get'?'dark':methodKey==='put'?'warning':methodKey==='patch'?'success':methodKey==='delete'?'danger':'primary'}} -->
+                                            <h5><span class="text-dark">{{methodKey|titlecase}}</span></h5>
+                                            <label style="font-size: 13px;" class="text-{{method[methodKey].auth?'success':'danger'}}">{{method[methodKey].auth?'Auth':'Not Auth'}}</label>  
+                                            <label  style="font-size: 13px;" class="text-primary ml-2" *ngIf="method[methodKey].variables">Variables:{{method[methodKey].variables?.length}}</label> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>

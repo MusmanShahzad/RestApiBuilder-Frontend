@@ -2,9 +2,6 @@ import {
   Injectable
 } from '@angular/core';
 import {
-  LoginUserGQL
-} from '../../graphql/service';
-import {
   BehaviorSubject
 } from 'rxjs';
 import {
@@ -16,7 +13,7 @@ import {
 import {
   HttpClient
 } from '@angular/common/http';
-
+import { environment } from './../../../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
@@ -27,7 +24,7 @@ export class LoginService {
 
   constructor(private http: HttpClient, private toastr: ToastrService, private router: Router) {}
   UpdateLogin(email, password) {
-    this.http.post('http://localhost:8080/user/login', {email,password}).subscribe(ele => {
+    this.http.post(environment.url+'user/login', {email,password}).subscribe(ele => {
       if (ele['error']) {
         this.toastr.error(ele['message'], ele['title']);
         this.LoginData.next(null);

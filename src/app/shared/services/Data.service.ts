@@ -9,6 +9,7 @@ import {
 import {
   BehaviorSubject
 } from 'rxjs';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable({
   providedIn: 'root'
@@ -65,7 +66,7 @@ export class DataService {
     }) == null;
   }
   defaultTable(name): Table {
-    const id = this.randomString();
+    const id = uuidv4();
     const table: Table = {
       id,
       name: name ? name : id,
@@ -83,7 +84,7 @@ export class DataService {
     
     if (this.checkColumnName(tableId, column.name)) {
     const table = this.getTableById(tableId);
-    column.id = this.randomString();
+    column.id = uuidv4();
     table.columns.push(column);
     this.status.next(false);
     return {status:true};
@@ -133,20 +134,6 @@ export class DataService {
       return (column.name === columnName);
     }));
     return temp == null || temp.length == 0;
-  }
-  randomString() {
-    const len = 5;
-    let an = 'a';
-    an = an && an.toLowerCase();
-    let str = '',
-      i = 0,
-      min = an == 'a' ? 10 : 0,
-      max = an == 'n' ? 10 : 62;
-    for (; i++ < len;) {
-      let r = Math.random() * (max - min) + min << 0;
-      str += String.fromCharCode(r += r > 9 ? r < 36 ? 55 : 61 : 48);
-    }
-    return str;
   }
   updateStatus(status){
     this.status.next(status);

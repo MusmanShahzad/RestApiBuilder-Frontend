@@ -45,7 +45,6 @@ get name() {
    
   ngOnInit() {
     let user = this.loginService.getUser();
-    
     if(user==null){
       this.http.get(this.url+'user').subscribe(response =>{
         user=response['user'];

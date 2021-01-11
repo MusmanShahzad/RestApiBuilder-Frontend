@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Database } from 'src/app/shared/services/interfaces';
 import { DataService } from 'src/app/shared/services/Data.service';
 import { moveItemInArray, CdkDragDrop } from '@angular/cdk/drag-drop';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { EditModalComponent } from '../edit-modal/edit-modal.component';
@@ -33,6 +33,7 @@ get name() {
 }
 nameError:boolean=false;
   constructor(private db: DataService,private toastr: ToastrService, 
+    private router:Router,
     private fb: FormBuilder,private route:ActivatedRoute,private http:HttpClient,
     private modalService: BsModalService,private loginService:LoginService) {
       this.url = environment.url;
@@ -60,7 +61,6 @@ nameError:boolean=false;
         user=response['user'];
         this.loginService.setUser(user);
         for(let i=0;i<user.database.length;i++){
-          console.log(user.database[i]._id,this.id);
           if(user.database[i]._id==this.id){
           this.db.setDatabase(user.database[i]);
           this.database = user.database[i];
@@ -100,7 +100,7 @@ nameError:boolean=false;
   }
   generateSql(){
     this.buildSqlLoading=true;
-    this.http.post('http://localhost:8080/sql',this.db.getDatabase()).subscribe((response)=>{
+    this.http.post(environment.url+'sql',this.db.getDatabase()).subscribe((response)=>{
     this.buildSqlLoading=false;
     if(response['error']){
       this.toastr.error(response['message'],response['title']);
@@ -147,14 +147,21 @@ nameError:boolean=false;
       })
     }
     else{
+      
       this.generateRestapi();
     }
     
   }
   generateRestapi(){
-    this.http.post('http://localhost:8080/restApiBuilder',this.db.getDatabase()).subscribe((response)=>{
-      this.openModal(response['data'].path)
-    })
+    this.http.post(environment.url+'restapi/convert',this.db.getDatabase()).subscribe((response)=>{
+      if(response['error']){
+        this.toastr.error(response['message'],response['title']);
+      }
+      else{
+        this.loginService.setUser(response['user']);
+        this.router.navigate(['./../../restapi/create',this.db.getDatabase()._id])
+      }
+        })
   }
   addTable(){
     if(!this.db.addTable(this.name.value)){

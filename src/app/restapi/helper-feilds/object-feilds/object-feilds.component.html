@@ -1,0 +1,11 @@
+<div class="row p-3  bg-white rounded border border-dark">
+  <div class="col-12">
+    <h4 style="display: inline;">{{to.label}}</h4>
+    <span class="btn btn-{{showArray?'primary':'danger'}} pull-right" (click)="showArray=!showArray">{{showArray?'Show':'Hide'}}</span>
+    <hr>
+  </div>
+  <div  class="col-12" *ngIf="!showArray">
+  <p *ngIf="to.description">{{ to.description }}</p>
+  <formly-field *ngFor="let f of field.fieldGroup" [field]="f"></formly-field>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+
+    <div class="email-left-aside">
+        <div class="card">
+            <div class="card-body">
+                <div class="email-app-sidebar">
+                    <div class="media">
+                        <div class="media-body">
+                            <h5 class="f-w-600">Routes</h5>
+                            <hr/>
+                        </div>
+                    </div>
+                    <ul role="tablist" class="nav main-menu">
+                        <li class="nav-item p-2 {{selected===i?'btn btn-primary':'btn'}}" style="background-color: #f6f7fb;" *ngFor="let route of routes;let i=index" (click)="sendMethods(route.methods,i)">
+                            <div href="javascript:void(0)" id="pills-darkhome-tab" data-toggle="pill"
+                                role="tab" aria-controls="pills-darkhome" aria-selected="true"
+                                class="show"> <h5 class="pull-left">{{route.path}}</h5> <h5 class="pull-right">
+                                    <i class="fa fa-edit" (click)="routeEditModal(route,i)"></i><i class="fa fa-trash-o" (click)="deleteRoute(i)"></i></h5> 
+                                </div>
+                            </li>
+                        <!-- <li class="nav-item">
+                            <a
+                                href="javascript:void(0)" id="pills-darkprofile-tab" data-toggle="pill"
+                                role="tab" aria-controls="pills-darkprofile" aria-selected="true"
+                                class="btn-primary btn-block btn-mail">
+                                <span class="title">
+                                   </span><span
+                                    class="badge pull-right digits">(10)</span></a>
+                        </li> -->
+                        <li class="nav-item  m-3 text-center">
+                            <button  type="button" placement="top" class="btn btn-dark"
+                             (click)="routeEditModal(null,-1)">
+                                <i class="fa fa-plus"></i> Add </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>

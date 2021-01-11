@@ -8,6 +8,10 @@ import { canDeactivate } from '../services/guard/canDeactivate.guard';
 
 export const content: Routes = [
   {
+    path:'restapi',
+    loadChildren: ()=>import ('./../../restapi/restapi.module').then(m=>m.RestapiModule)
+  },
+  {
     path: 'dashboard', component: DashboardComponent
   },
   {

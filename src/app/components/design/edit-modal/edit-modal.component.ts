@@ -32,7 +32,8 @@ export class EditModalComponent implements OnInit {
   constructor(private fb: FormBuilder, private db: DataService, public bsModalRef: BsModalRef,
     private toastr:ToastrService,private ComboBoxData :ComboBoxDataService) {
     this.updateColumnForm = this.fb.group({
-      name: ['', [Validators.required,Validators.pattern('(_|[a-zA-Z])(_|[a-zA-Z]|[0-9])*')]],
+      //^[A-Za-z_-][a-zA-Z_0-9]*$
+      name: ['', [Validators.required,Validators.pattern('^(_|[a-zA-Z])(_|[a-zA-Z]|[0-9])*$')]],
       type: [0, [Validators.required,Validators.min(1)]],
       key: [0],
       length: [20,[Validators.min(1),Validators.max(200)]],
@@ -65,8 +66,8 @@ export class EditModalComponent implements OnInit {
     if(this.Data.column){
       this.column = this.Data.column;
       this.updateColumnForm = this.fb.group({
-        name: [this.column.name, Validators.required],
-        type: [this.column.type, Validators.required],
+        name: [this.column.name, [Validators.required,Validators.pattern('^(_|[a-zA-Z])(_|[a-zA-Z]|[0-9])*$')]],
+        type: [this.column.type, [Validators.required]],
         key: [this.column.key],
         length: [this.column.length,[Validators.min(1),Validators.max(200)]],
         default: [this.column.default],
@@ -77,8 +78,10 @@ export class EditModalComponent implements OnInit {
       this.comboBox=this.ComboBoxData.comboBoxDataObservable.value;
     }
     else{
+      
       this.ComboBoxData.getComboBoxData();
       this.ComboBoxData.comboBoxDataObservable.subscribe(data =>{
+        console.log(data);
         this.comboBox = data;
       })
     }

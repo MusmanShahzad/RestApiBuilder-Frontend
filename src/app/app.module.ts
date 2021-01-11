@@ -9,7 +9,6 @@ import { SharedModule } from './shared/shared.module';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LoginComponent } from './components/auth/login/login.component';
-import { GraphQLModule } from './graphql.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -27,6 +26,8 @@ import { ViewDatabasesComponent } from './components/ViewDatabases/ViewDatabases
 import { RegisterComponent } from './components/auth/register/register.component';
 import { JwtInterceptor } from './shared/helper/jwt.interceptor';
 import { ViewDatabaseShareComponent } from './components/viewDatabaseShare/viewDatabaseShare.component';
+import { FormlyModule } from '@ngx-formly/core';
+import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,6 @@ import { ViewDatabaseShareComponent } from './components/viewDatabaseShare/viewD
     SharedModule,
     HttpClientModule,
     ReactiveFormsModule,
-    GraphQLModule,
     ToastrModule.forRoot({
       maxOpened: 4,
     }),
@@ -58,7 +58,9 @@ import { ViewDatabaseShareComponent } from './components/viewDatabaseShare/viewD
     DragDropModule,
     ToastrModule.forRoot(),
     BrowserAnimationsModule,
-    HttpClientModule
+    HttpClientModule,
+    FormlyModule.forRoot({ extras: { lazyRender: true } }),
+    FormlyBootstrapModule
   ],
   providers: [LoginService,DataService,ComboBoxDataService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],

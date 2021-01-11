@@ -3,6 +3,7 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-register',
@@ -34,7 +35,7 @@ export class RegisterComponent implements OnInit {
     const formData = new FormData();
     formData.append('data',JSON.stringify({...this.registerForm.value}));
     formData.append('file', this.uploadedFiles[0]);
-    this.httpClient.post('http://localhost:8080/user', formData).subscribe(ele=>{
+    this.httpClient.post(environment.url+'user', formData).subscribe(ele=>{
       this.isLoading=false;
       if(ele['error']){
         this.toastr.error(ele['message'],ele['message']);

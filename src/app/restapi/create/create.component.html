@@ -1,0 +1,64 @@
+<!-- <app-form-feild-form></app-form-feild-form> -->
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-12">
+        <div class="card">
+        <form [formGroup]="form"  class="card-body">
+            <div class="row">
+                <div  class="col-4 m-auto">
+                    <span>Database Name*</span>
+                    <input  type="text"
+                        placeholder="Database Name" formControlName="databaseName"
+                        class="form-control">
+                        <label style="color: red" *ngIf="databaseName.errors?.required" >Database Name is required</label>
+                        <label style="color: red" *ngIf="databaseName.errors?.pattern" >Database Name is not in correct format</label>
+                </div>
+                <div  class="col-4 m-auto">
+                    <span>Port No*</span>
+                    <input  type="number"
+                        placeholder="Port No" formControlName="port"
+                        class="form-control">
+                        <label style="color: red" *ngIf="port.errors?.required" >Port No is required</label>
+                        <label style="color: red" *ngIf="port.errors?.min" >Port No must be greater than 1000</label>
+                        <label style="color: red" *ngIf="port.errors?.max" >Port No must be less than 9999</label>
+                </div>
+                <div  class="col-4 m-auto">
+                    <span>Token Secret Key*</span>
+                    <input  type="text"
+                        placeholder="Token Secret Key" formControlName="token"
+                        class="form-control">
+                        <label style="color: red" *ngIf="token.errors?.required" >Token is required</label>
+                </div>
+                
+            </div>
+            <div class="row justify-content-md-center">
+                <div  class="col-4  text-center">
+                    
+                        <button 
+                        class="btn btn-dark m-3" (click)="buildRestapi()">Build RestAPi</button>
+                        <button 
+                        class="btn btn-dark m-3" (click)="onSubmit()" [disabled]="!this.form.valid">Save</button>
+                </div>
+                
+                
+            </div>
+        </form>
+    </div>
+    </div>
+    </div>
+    <div class="email-wrap">
+        <div class="row">
+            <div class="col-xl-3 col-md-6">
+                <app-routes [routes]="fieldInput?.routes" (getMethods)="sendMethods($event)"></app-routes>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <app-methods [method]="method" (selectedMethod)="buildForm($event)"></app-methods>
+
+            </div>
+            <div class="col-xl-6 col-md-12">
+                <app-method-form [method]="selectedMethod"></app-method-form>
+            </div>
+        </div>
+    </div>
+</div>
