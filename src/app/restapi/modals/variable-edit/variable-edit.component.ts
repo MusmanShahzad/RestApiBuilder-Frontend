@@ -12,21 +12,12 @@ form:FormGroup;
 variable:any;
 index:number;
 event=new EventEmitter<any>();
-// {
-//   name: 'Name',
-//   type: 'string',
-//   parse: 'body',
-//   validator:{
-//       min:4,
-//       max:5,
-//       regex:''
-//   }
-// }
 options=[
   { label: 'string', value: 'string' },
   { label: 'int', value: 'int' },
   { label: 'boolean', value: 'boolean' },
   { label: 'email', value: 'email' },
+  { label: 'file', value: 'file' },
 ];
 parse=[
   { label: 'Body', value: 'body' },
@@ -38,13 +29,12 @@ parse=[
       type:[this.variable?.type,[Validators.required]],
       parse:[this.variable?.type,[Validators.required]],
       validator:this.formBuilder.group({
-        min:[this.variable?.Validators.min],
-        max:[this.variable?.Validators.max],
-        regex:[this.variable?.Validators.regex]
+        min:[this.variable?.validator.min],
+        max:[this.variable?.validator.max],
+        regex:[this.variable?.validator.regex]
       })
     })
    }
-
   ngOnInit(): void {
     this.form=this.formBuilder.group({
       name:[this.variable?.name,[Validators.required,Validators.pattern('^((_|[a-zA-Z])(_|[a-zA-Z]|[0-9])*(\/(_|[a-zA-Z])(_|[a-zA-Z]|[0-9])+)?)*$')]],
@@ -57,11 +47,12 @@ parse=[
       })
     })
   }
-
   save(){
-    this.event.emit({variable:this.form.value,index:this.index})
+    this.event.emit({variable:this.form.value,index:this.index});
+    this.bsModalRef.hide();
   }
   update(){
-    this.event.emit({variable:this.form.value,index:this.index})
+    this.event.emit({variable:this.form.value,index:this.index});
+    this.bsModalRef.hide();
   }
 }

@@ -38,82 +38,41 @@ selected=-1;
           auth: true,
           methods: {
               get: {
-                  auth: true,
-                  query: 'SQL Query',
-                  variables: [{
-                      name: 'Name',
-                      type: 'string',
-                      parse: 'body',
-                      validator:{
-                          min:4,
-                          max:5,
-                          regex:''
-                      }
-                  }]
+                  auth: false,
+                  getToken:false,
+                  query: '',
+                  variables: []
               },
-              post: {
-                  auth: true,
-                  query: 'SQL Query',
-                  variables: [{
-                      name: 'Name',
-                      type: 'int',
-                      parse: 'body',
-                      validator:{
-                          min:4,
-                          max:5,
-                          regex:''
-                      }
-                  }]
-              },
-              put: {
-                  auth: true,
-                  query: 'SQL Query',
-                  variables: [{
-                      name: 'Name',
-                      type: 'int',
-                      parse: 'body',
-                      validator:{
-                          min:4,
-                          max:5,
-                          regex:''
-                      }
-                  }]
-              },
-              patch: {
-                  auth: true,
-                  query: 'SQL Query',
-                  variables: [{
-                      name: 'Name',
-                      type: 'int',
-                      parse: 'body',
-                      validator:{
-                          min:4,
-                          max:5,
-                          regex:''
-                      }
-                  }]
-              },
-              delete: {
-                  auth: true,
-                  query: 'SQL Query',
-                  variables: [{
-                      name: 'Name',
-                      type: 'int',
-                      parse: 'body',
-                      validator:{
-                          min:4,
-                          max:5,
-                          regex:''
-                      }
-                  }]
-              }
+              post:  {
+                auth: false,
+                getToken:false,
+                query: '',
+                variables: []
+            },
+              put:  {
+                auth: false,
+                getToken:false,
+                query: '',
+                variables: []
+            },
+              patch:  {
+                auth: false,
+                getToken:false,
+                query: '',
+                variables: []
+            },
+              delete:  {
+                auth: false,
+                getToken:false,
+                query: '',
+                variables: []
+            }
             }
         }
       )
     })
     this.bsModalRef.content.closeBtnName = 'Close';
   }
-  
   deleteRoute(i){
     this.routes.splice(i, 1);
   }

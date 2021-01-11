@@ -27,6 +27,14 @@ fields: FormlyFieldConfig[]= [
       label: 'auth',
       placeholder: 'auth',
     }
+  },
+  {
+    key: 'getToken',
+    type: 'boolean',
+    templateOptions: {
+      label: 'Get Token',
+      placeholder: 'Get Token',
+    }
   }
 ];
     form = new FormGroup({});
@@ -44,17 +52,29 @@ bsModalRef: BsModalRef;
 
   constructor(private modalService:BsModalService,
     private formBuilder:FormBuilder,) {
-    
    }
 
   ngOnInit(): void {
-    
+    this.form.valueChanges.subscribe(ele=>{
+      setTimeout(()=>{ ele.query.match(/\$\{[a-zA-Z_][a-zA-Z_0-9]*\}/g).forEach(element => {
+        if(this.method.variables.filter(variable=>{
+          return variable.name===element.replace('${','').replace('}','');
+        }).length===0)
+        {
+          this.method.variables.push({
+            name:element.replace('${','').replace('}',''),
+            type:'string',
+            parse:'body'
+          })
+        } }, 1000);
+      });
+    })
   }
   getForm(){
   }
   openVariableEditModal(variable,index){
     const initialState = {
-      variable:variable,
+      variable,
       index
   };
     this.bsModalRef = this.modalService.show(VariableEditComponent, {initialState});
@@ -65,6 +85,5 @@ bsModalRef: BsModalRef;
       this.method.variables.push(data.variable)
     })
     this.bsModalRef.content.closeBtnName = 'Close';
-  }
-  
+  }  
 }

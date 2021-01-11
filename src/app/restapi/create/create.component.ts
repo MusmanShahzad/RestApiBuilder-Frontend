@@ -111,6 +111,7 @@ openModal(path) {
       });
   }
   sendMethods(method){
+    this.selectedMethod=null;
     this.method=method;
   }
   buildForm(m){

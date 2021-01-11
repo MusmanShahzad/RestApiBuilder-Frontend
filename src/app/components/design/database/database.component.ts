@@ -109,6 +109,18 @@ nameError:boolean=false;
     })
   }
   updateDatabase(){
+    let valid=true;
+    console.log(this.db.getDatabase())
+    this.db.getDatabase().tables.forEach(ele=>{
+      if(ele.columns.filter(column=>{
+        return column.key==1}).length===0){
+        valid=false;
+      }
+    });
+    if(!valid){
+      this.toastr.error('Every table must have a primary key','Error');
+      return;
+    }
     if(!this.saveStatus){
     this.saveLoading=true;
     this.http.put(this.url+'project',{...this.db.getDatabase()}).subscribe(ele=>{
@@ -147,10 +159,8 @@ nameError:boolean=false;
       })
     }
     else{
-      
       this.generateRestapi();
     }
-    
   }
   generateRestapi(){
     this.http.post(environment.url+'restapi/convert',this.db.getDatabase()).subscribe((response)=>{
@@ -173,7 +183,6 @@ nameError:boolean=false;
   }
   drop(event: CdkDragDrop<[]>) {
     if (event.previousContainer === event.container) {
-
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } 
   }

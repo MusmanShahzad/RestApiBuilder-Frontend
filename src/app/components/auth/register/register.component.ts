@@ -28,10 +28,10 @@ export class RegisterComponent implements OnInit {
     this.uploadedFiles = event.target.files;
   }
   register(val){
-    console.log('here');
     // const HttpUploadOptions = {
     //   headers: new HttpHeaders({ 'Content-Type': 'multipart/form-data'})
     // }
+    this.isLoading=false;
     const formData = new FormData();
     formData.append('data',JSON.stringify({...this.registerForm.value}));
     formData.append('file', this.uploadedFiles[0]);
