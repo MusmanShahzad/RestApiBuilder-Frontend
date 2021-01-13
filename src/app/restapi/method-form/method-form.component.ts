@@ -64,7 +64,12 @@ bsModalRef: BsModalRef;
           this.method.variables.push({
             name:element.replace('${','').replace('}',''),
             type:'string',
-            parse:'body'
+            parse:'body',
+            validator:{
+              min:0,
+              max:0,
+              regex:''
+            }
           })
         } }, 1000);
       });

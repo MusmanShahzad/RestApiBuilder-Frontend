@@ -104,9 +104,13 @@ export class EditModalComponent implements OnInit {
     }
   }
   saveColumn(){
-    console.log(this.Data.tableId,this.updateColumnForm.value);
-    (this.db.addColumn(this.Data.tableId,this.updateColumnForm.value));
+   let out = (this.db.addColumn(this.Data.tableId,this.updateColumnForm.value));
+   if(out.status){
     this.bsModalRef.hide();
+   }
+   else{
+     this.toastr.error(out.message,out.error);
+   }
   }
   change(type){
     if(type=='default'){

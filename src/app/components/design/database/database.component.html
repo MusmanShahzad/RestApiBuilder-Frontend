@@ -15,9 +15,9 @@
 <div class="col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
 <h2>{{database?.name}}</h2>
 <br>
-<button class="btn btn-dark m-3" (click)="BuildSql()">Build Sql File</button>
-<button class="btn btn-dark m-3" (click)="BuildRestApi()">Build RestAPi</button>
-<button class="btn btn-success m-3" (click)="updateDatabase()">{{saveLoading?'Loading...':'Save'}}</button>
+<button class="btn btn-dark m-3" (click)="BuildSql()" [disabled]="buildSqlLoading">{{buildSqlLoading?'Loading...':'Build Sql'}}</button>
+<button class="btn btn-dark m-3" [disabled]="buildRestapiLoading" (click)="BuildRestApi()">{{buildRestapiLoading?'Loading...':'Build RestAPi'}}</button>
+<button class="btn btn-success m-3" (click)="updateDatabase()" [disabled]="saveLoading">{{saveLoading?'Loading...':'Save'}}</button>
 </div>
 </div>
 <div class="row justify-content-center" cdkDropListGroup>

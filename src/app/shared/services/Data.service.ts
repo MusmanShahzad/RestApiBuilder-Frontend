@@ -81,15 +81,25 @@ export class DataService {
     });
   }
   addColumn(tableId: string, column: Column) {
-    
     if (this.checkColumnName(tableId, column.name)) {
     const table = this.getTableById(tableId);
+    let i=0;
+    for(let tempcol of table.columns){
+      if(tempcol.key==1){
+        console.log(tempcol)
+        if(i==2){
+          return  {error: 'duplicated', message: 'Tbale only have one primaryKey',status:false};
+        }
+        else{
+          i++
+        }
+      }
+    }
     column.id = uuidv4();
     table.columns.push(column);
     this.status.next(false);
     return {status:true};
     } else {
-      console.log('column name found');
       return {error: 'duplicated', message: 'column name already exit in table',status:false};
     }
 

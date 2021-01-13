@@ -96,9 +96,12 @@ nameError:boolean=false;
     else{
       this.generateSql();
     }
-    
   }
   generateSql(){
+    if(!this.saveStatus){
+      this.toastr.error('Save changes first','error');
+      return;
+    }
     this.buildSqlLoading=true;
     this.http.post(environment.url+'sql',this.db.getDatabase()).subscribe((response)=>{
     this.buildSqlLoading=false;
@@ -110,7 +113,6 @@ nameError:boolean=false;
   }
   updateDatabase(){
     let valid=true;
-    console.log(this.db.getDatabase())
     this.db.getDatabase().tables.forEach(ele=>{
       if(ele.columns.filter(column=>{
         return column.key==1}).length===0){
@@ -133,6 +135,9 @@ nameError:boolean=false;
       this.toastr.success('Database saved SuccessFully','success');
     })
   }
+  else{
+    this.toastr.info('No change detected','Info');
+  }
   }
   openModal(path) {
     const initialState = {
@@ -146,24 +151,31 @@ nameError:boolean=false;
   }
   BuildRestApi(){
     if(!this.saveStatus){
-      this.saveLoading=true;
-      this.http.put(this.url+'project',{...this.db.getDatabase()}).subscribe(ele=>{
-        this.saveLoading=false;
-        if(ele['error']){
-          this.toastr.error(ele['message'],ele['title']);
-        }
-        this.db.updateStatus(true);
-        this.loginService.setUser(ele['user']);
-        this.toastr.success('Database saved SuccessFully','success');
-        this.generateRestapi();
-      })
+      this.toastr.error('Save Changes first','error');
+    //   this.saveLoading=true;
+    //   this.http.put(this.url+'project',{...this.db.getDatabase()}).subscribe(ele=>{
+    //     this.saveLoading=false;
+    //     if(ele['error']){
+    //       this.toastr.error(ele['message'],ele['title']);
+    // this.buildRestapiLoading=false;
+
+    //     }else{
+    //     this.db.updateStatus(true);
+    //     this.loginService.setUser(ele['user']);
+    //     this.toastr.success('Database saved SuccessFully','success');
+    //     this.generateRestapi();
+    //     }
+    //   })
     }
     else{
       this.generateRestapi();
     }
   }
   generateRestapi(){
+    this.buildRestapiLoading=true;
     this.http.post(environment.url+'restapi/convert',this.db.getDatabase()).subscribe((response)=>{
+    this.buildRestapiLoading=false;
+
       if(response['error']){
         this.toastr.error(response['message'],response['title']);
       }

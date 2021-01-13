@@ -1,7 +1,19 @@
 <!-- <app-form-feild-form></app-form-feild-form> -->
 
 <div class="container-fluid">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center" *ngIf="dataLoading">
+        <div class="col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+          <div class="loader-box justify-content-center">
+            <div class="loader">
+              <div class="line bg-secondary"></div>
+              <div class="line bg-secondary"></div>
+              <div class="line bg-secondary"></div>
+              <div class="line bg-secondary"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <div class="row justify-content-center" *ngIf="!dataLoading">
         <div class="col-12">
         <div class="card">
         <form [formGroup]="form"  class="card-body">
@@ -36,9 +48,9 @@
                 <div  class="col-4  text-center">
                     
                         <button 
-                        class="btn btn-dark m-3" (click)="buildRestapi()">Build RestAPi</button>
+                        class="btn btn-dark m-3" (click)="buildRestapi()" [disabled]="buildRestAPiLoading">{{buildRestAPiLoading?'loading...':'Build RestAPi'}}</button>
                         <button 
-                        class="btn btn-dark m-3" (click)="onSubmit()" [disabled]="!this.form.valid">Save</button>
+                        class="btn btn-success m-3" (click)="onSubmit()" [disabled]="!this.form.valid||loading">{{loading?'Loading...':'save'}}</button>
                 </div>
                 
                 
@@ -47,7 +59,7 @@
     </div>
     </div>
     </div>
-    <div class="email-wrap">
+    <div class="email-wrap" *ngIf="!dataLoading">
         <div class="row">
             <div class="col-xl-3 col-md-6">
                 <app-routes [routes]="fieldInput?.routes" (getMethods)="sendMethods($event)"></app-routes>

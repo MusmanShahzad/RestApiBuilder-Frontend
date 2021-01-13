@@ -24,6 +24,8 @@ selectedMethod:any;
 form:FormGroup;
 bsModalRef:BsModalRef;
 loading=false;
+buildRestAPiLoading=false;
+dataLoading=false;
 get databaseName(){
     return  this.form.get('databaseName');
 }
@@ -53,6 +55,28 @@ get token(){
             }
           })
    }
+   ngOnInit(): void {
+    this.route.paramMap.subscribe(queryParams => {
+      this.dataLoading=true;
+        this._id=queryParams.get('id');
+        let user = this.loginService.getUser();
+        if(user==null){
+          this.http.get(this.url+'user').subscribe(response =>{
+            this.dataLoading=false;
+            user=response['user'];
+            this.loginService.setUser(user);
+          })
+        }else{
+          this.dataLoading=false;
+            for(const database of user.database){
+                if(database._id===this._id){
+                  this.fieldInput = database.routes&&database.routes!==''?JSON.parse(database.routes):{};
+                    this.buildFormGroup();
+                } 
+            }
+        }
+      });
+  }
   onSubmit() {
       this.fieldInput['databaseName']=this.databaseName.value;
       this.fieldInput['port']=parseInt(this.port.value);
@@ -69,8 +93,11 @@ get token(){
   }
   buildRestapi(){
     if(this.save){
+      this.buildRestAPiLoading=true;
         this.http.post(this.url+"restApiBuilder",this.fieldInput)
         .subscribe(res=>{
+      this.buildRestAPiLoading=false;
+
             if(res['error']){
                 this.toastr.error('Error Occour');
             }
@@ -78,6 +105,9 @@ get token(){
                 this.openModal(res["data"].path);
             }
         })
+    }
+    else{
+      this.toastr.error('Save Form First','Error');
     }
 }
 openModal(path) {
@@ -90,26 +120,7 @@ openModal(path) {
     //   console.log(res.data);
     // });
   }
-  ngOnInit(): void {
-    this.route.paramMap.subscribe(queryParams => {
-        this._id=queryParams.get('id');
-        let user = this.loginService.getUser();
-        if(user==null){
-          this.http.get(this.url+'user').subscribe(response =>{
-            user=response['user'];
-            this.loginService.setUser(user);
-          })
-        }else{
-            for(const database of user.database){
-                if(database._id===this._id){
-                  this.fieldInput = database.routes&&database.routes!==''?JSON.parse(database.routes):{};
-                    this.buildFormGroup();
-
-                } 
-            }
-        }
-      });
-  }
+  
   sendMethods(method){
     this.selectedMethod=null;
     this.method=method;
@@ -118,7 +129,9 @@ openModal(path) {
       this.selectedMethod=m;
   }
   save(){
+    this.loading=true;
     this.http.post(`${this.url}restapi`,{...this.fieldInput,_id:this._id}).subscribe(ele=>{
+      this.loading=false;
         if(!ele['error']){
         this.toastr.success('Saved Successfully');
         }
